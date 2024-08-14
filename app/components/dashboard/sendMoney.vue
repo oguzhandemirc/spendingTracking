@@ -1,4 +1,4 @@
-sendmoney.vue<template>
+<template>
   <div class="box-container">
     <!-- send money -->
     <div class="flex justify-start text-2xl pb-5 pt-5">
@@ -35,32 +35,46 @@ sendmoney.vue<template>
     </div>
     <!-- enter the amount -->
     <div>
-      <div class="flex items-center justify-start pl-7 space-x-2 h-12 bg-indigo-800 rounded-xl">
-        <div>
-          <img
-            class="w-5"
-            src="https://cdn-icons-png.flaticon.com/512/6997/6997662.png"
-          >
+      <div class="flex items-center  justify-start space-x-2 bg-indigo-800 rounded-xl p-1 h-20">
+        <div class=" w-full h-full">
+          <div class="flex w-full h-full flex-col ">
+            <div class="px-2 py-1  flex space-x-2">
+              <img
+                class="w-6 h-6"
+                src="https://cdn-icons-png.flaticon.com/512/6997/6997662.png"
+              ><div>Enter the amount</div>
+            </div>
+
+            <div class="flex flex-col  h-full justify-center">
+              <UInput
+                v-model="amount"
+                placeholder="Send"
+                color=""
+                size="lg"
+              >
+                <template #trailing>
+                  <span class="text-gray-500 dark:text-gray-400 text-xs ">$</span>
+                </template>
+              </UInput>
+            </div>
+          </div>
         </div>
-        <div>Enter the amount</div>
-        <div>$800</div>
-      </div>
-      <div>
-        <div>$800.00</div>
-        <div>TR US</div>
       </div>
     </div>
     <!-- send money button -->
-    <div class="flex">
+    <div class="flex mt-5">
       <UButton
         label="Send Money"
         class="w-full h-12 text-md rounded-xl text-center flex justify-center"
+        color="sky"
+        @click="sendMoney"
       />
     </div>
   </div>
 </template>
 
 <script setup>
+const amount = ref()
 const accName = ref()
 const balance = ref()
 const debit = ref(
@@ -92,6 +106,10 @@ const items = [[{
   label: 'Debit',
   click: () => changeAcc('Debit')
 }]]
+
+const sendMoney = () => {
+  window.alert(amount.value + ' $ sent')
+}
 </script>
 
   <style>

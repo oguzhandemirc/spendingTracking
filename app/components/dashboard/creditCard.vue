@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="flex justify-start text-2xl pb-5 pt-5">
+      <h1>My Card</h1>
+    </div>
     <div
       class="credit-card-container"
       @click="flipCard"

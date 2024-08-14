@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CreditCard from '~/components/dashboard/creditCard.vue'
+import QuickTransfer from '~/components/dashboard/quickTransfer.vue'
 import SendMoney from '~/components/dashboard/sendMoney.vue'
 
 const { isNotificationsSlideoverOpen } = useDashboard()
@@ -60,6 +61,7 @@ const items = [[{
           cvv="123"
         />
         <SendMoney />
+        <QuickTransfer />
       </UDashboardPanelContent>
     </UDashboardPanel>
   </UDashboardPage>
