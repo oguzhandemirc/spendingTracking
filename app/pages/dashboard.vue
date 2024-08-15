@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { sub } from 'date-fns'
 import CreditCard from '~/components/dashboard/creditCard.vue'
+import GroupParty from '~/components/dashboard/group-party.vue'
 import QuickTransfer from '~/components/dashboard/quickTransfer.vue'
 import RecentContacts from '~/components/dashboard/recent-contacts.vue'
 import RecentTransactions from '~/components/dashboard/recent-transactions.vue'
@@ -60,7 +61,7 @@ const items = [[{
 
       <UDashboardPanelContent>
         <!-- Flex Container -->
-        <div class="flex flex-col lg:flex-row gap-6 mt-8 px-4">
+        <div class="flex flex-col lg:flex-row gap-6 mt-8 ">
           <!-- Sol Sütun (Sidebar) -->
           <div class="flex flex-col gap-4 w-full lg:w-1/4 lg:mr-5 ">
             <CreditCard
@@ -87,6 +88,7 @@ const items = [[{
               </div>
               <div class="w-full lg:w-4/12">
                 <RecentContacts />
+                <GroupParty />
               </div>
             </div>
 
