@@ -73,7 +73,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const amount = ref()
 const accName = ref()
 const balance = ref()
@@ -85,7 +85,6 @@ const debit = ref(
 )
 const changeAcc = (e) => {
   const acc = ref(e)
-  console.log(acc.value)
 
   switch (acc.value) {
     case 'Balance':
@@ -98,6 +97,10 @@ const changeAcc = (e) => {
       break
   }
 }
+onMounted(() => {
+  balance.value = debit.value[0].value
+  accName.value = debit.value[0].label
+})
 
 const items = [[{
   label: 'Balance',
@@ -114,6 +117,6 @@ const sendMoney = () => {
 
   <style>
   .box-container {
-   width: 320px;
+
   }
   </style>

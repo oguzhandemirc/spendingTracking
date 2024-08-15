@@ -74,6 +74,7 @@ const period = ref<Period>('daily')
       <UDashboardPanelContent>
         <!-- ~/components/home/HomeChart.vue -->
         <HomeChart
+
           :period="period"
           :range="range"
         />

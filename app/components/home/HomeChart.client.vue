@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { eachDayOfInterval, eachWeekOfInterval, eachMonthOfInterval, format } from 'date-fns'
-import { VisXYContainer, VisLine, VisAxis, VisArea, VisCrosshair, VisTooltip } from '@unovis/vue'
+import { VisArea, VisAxis, VisCrosshair, VisLine, VisTooltip, VisXYContainer } from '@unovis/vue'
+import { eachDayOfInterval, eachMonthOfInterval, eachWeekOfInterval, format } from 'date-fns'
 import type { Period, Range } from '~/types'
 
 const cardRef = ref<HTMLElement | null>(null)
@@ -67,6 +67,9 @@ const template = (d: DataRecord) => `${formatDate(d.date)}: ${formatNumber(d.amo
 </script>
 
 <template>
+  <div class=" text-2xl mt-5 mb-5">
+    <H1>Money Flow</H1>
+  </div>
   <UDashboardCard
     ref="cardRef"
     :ui="{ body: { padding: '!pb-3 !px-0' } as any }"

@@ -4,7 +4,7 @@
       <h1>My Card</h1>
     </div>
     <div
-      class="credit-card-container"
+      class="credit-card-container w-full"
       @click="flipCard"
     >
       <div
@@ -54,8 +54,6 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
-
 const props = defineProps({
   cardNumber: {
     type: String,
@@ -74,7 +72,6 @@ const props = defineProps({
     required: true
   }
 })
-
 const isFlipped = ref(false)
 
 function flipCard() {
@@ -103,7 +100,7 @@ const cardType = computed(() => {
 
   <style scoped>
   .credit-card-container {
-    width: 320px;
+
     height: 190px;
     perspective: 1000px;
     cursor: pointer;
