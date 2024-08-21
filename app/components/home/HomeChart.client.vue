@@ -67,7 +67,7 @@ const template = (d: DataRecord) => `${formatDate(d.date)}: ${formatNumber(d.amo
 </script>
 
 <template>
-  <div class=" text-2xl mt-5 mb-5">
+  <div class=" text-2xl mt-5 mb-5 ">
     <H1>Money Flow</H1>
   </div>
   <UDashboardCard

@@ -1,21 +1,28 @@
 <script setup lang="ts">
-import { sub } from 'date-fns'
-import type { Period, Range } from '~/types'
+import { getStocks } from '~/services/stockService'
 
 const { isNotificationsSlideoverOpen } = useDashboard()
-
-const items = [[{
-  label: 'New mail',
-  icon: 'i-heroicons-paper-airplane',
-  to: '/inbox'
-}, {
-  label: 'New user',
-  icon: 'i-heroicons-user-plus',
-  to: '/users'
-}]]
-
-const range = ref<Range>({ start: sub(new Date(), { days: 14 }), end: new Date() })
-const period = ref<Period>('daily')
+// const token = localStorage.getItem('token')
+// onMounted(() => {
+//   if (!token) {
+//     router.push('/login')
+//   }
+// })
+const selected = ref([])
+const stock = ref([])
+onMounted(async () => {
+  const stocks = await getStocks()
+  stock.value = stocks.map(item => ({
+    id: item[0],
+    company: item[1],
+    open: item[2],
+    close: item[3],
+    low: item[4],
+    change: item[5],
+    volume: item[6],
+    time: item[8]
+  }))
+})
 </script>
 
 <template>
@@ -44,47 +51,18 @@ const period = ref<Period>('daily')
               </UChip>
             </UButton>
           </UTooltip>
-
-          <UDropdown :items="items">
-            <UButton
-              icon="i-heroicons-plus"
-              size="md"
-              class="ml-1.5 rounded-full"
-            />
-          </UDropdown>
         </template>
       </UDashboardNavbar>
-
-      <UDashboardToolbar>
-        <template #left>
-          <!-- ~/components/home/HomeDateRangePicker.vue -->
-          <HomeDateRangePicker
-            v-model="range"
-            class="-ml-2.5"
-          />
-
-          <!-- ~/components/home/HomePeriodSelect.vue -->
-          <HomePeriodSelect
-            v-model="period"
-            :range="range"
-          />
-        </template>
-      </UDashboardToolbar>
-
+      <UDashboardSection
+        class="px-4"
+        :description=" selected.length + ' Stocks Selected ' "
+        :links="[{ label: 'Save changes', color: 'black' }]"
+      />
       <UDashboardPanelContent>
-        <!-- ~/components/home/HomeChart.vue -->
-        <HomeChart
-
-          :period="period"
-          :range="range"
+        <UTable
+          v-model="selected"
+          :rows="stock"
         />
-
-        <div class="grid lg:grid-cols-2 lg:items-start gap-8 mt-8">
-          <!-- ~/components/home/HomeSales.vue -->
-          <HomeSales />
-          <!-- ~/components/home/HomeCountries.vue -->
-          <HomeCountries />
-        </div>
       </UDashboardPanelContent>
     </UDashboardPanel>
   </UDashboardPage>

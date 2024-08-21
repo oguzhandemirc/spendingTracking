@@ -12,13 +12,7 @@
             alt=""
           >
         </div>
-        <div class="flex justify-center">
-          <img
-            class="w-8 h-8 md:w-12 md:h-12 lg:w-10 lg:h-10 bg-gray-300 rounded-full"
-            src="https://cdn-icons-png.freepik.com/512/4086/4086679.png"
-            alt=""
-          >
-        </div>
+
         <div class="flex justify-center">
           <img
             class="w-8 h-8 md:w-12 md:h-12 lg:w-10 lg:h-10 bg-gray-300 rounded-full"
@@ -36,11 +30,11 @@
         </div>
       </div>
     </div>
-    <div class="flex mt-5 space-x-5 items-center  ">
+    <div class="flex mt-5 items-center">
       <div class="flex  w-11/12 space-x-2">
         <div class=" w-2/6 lg:w-3/12 ">
           <img
-            class="bg-gray-300 w-14 h-14 rounded-full"
+            class="bg-gray-300 w-10 h-10 rounded-full"
             src="https://cdn-icons-png.freepik.com/512/3001/3001764.png"
             alt=""
           >
