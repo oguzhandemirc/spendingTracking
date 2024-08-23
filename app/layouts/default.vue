@@ -1,19 +1,9 @@
 <script setup lang="ts">
 const route = useRoute()
-const router = useRouter()
+const _router = useRouter()
 const appConfig = useAppConfig()
-const { isHelpSlideoverOpen } = useDashboard()
 
 const links = ref([{
-  id: 'login',
-  label: 'Login',
-  icon: 'i-heroicons-home',
-  to: '/login',
-  tooltip: {
-    text: 'Login',
-    shortcuts: ['G', 'H']
-  }
-}, {
   id: 'home',
   label: 'Home',
   icon: 'i-heroicons-home',
@@ -23,6 +13,24 @@ const links = ref([{
     shortcuts: ['G', 'H']
   }
 }, {
+  id: 'usermanagement',
+  label: 'User Management',
+  to: '/admin',
+  icon: 'i-heroicons-cog-8-tooth',
+  children: [{
+    label: 'User List',
+    to: '/admin/users',
+    exact: true
+  }, {
+    label: 'User Create',
+    to: '/admin/usercreate'
+  }],
+  tooltip: {
+    text: 'usermanagement',
+    shortcuts: ['G', 'S']
+  }
+},
+{
   id: 'settings',
   label: 'Settings',
   to: '/settings',
@@ -31,29 +39,8 @@ const links = ref([{
     text: 'Settings',
     shortcuts: ['G', 'S']
   }
-}, {
-  id: 'logout',
-  label: 'Logout',
-  icon: 'i-heroicons-home',
-  tooltip: {
-    text: 'logout',
-    shortcuts: ['G', 'H']
-  },
-  click: () => {
-    logout()
-  }
 }
 ])
-
-const footerLinks = [{
-  label: 'Invite people',
-  icon: 'i-heroicons-plus',
-  to: '/settings/members'
-}, {
-  label: 'Help & Support',
-  icon: 'i-heroicons-question-mark-circle',
-  click: () => isHelpSlideoverOpen.value = true
-}]
 
 const groups = [{
   key: 'links',
@@ -72,10 +59,6 @@ const groups = [{
   }]
 }]
 
-const logout = () => {
-  localStorage.removeItem('token')
-  router.push('/login')
-}
 const defaultColors = ref(['green', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet'].map(color => ({ label: color, chip: color, click: () => appConfig.ui.primary = color })))
 const _colors = computed(() => defaultColors.value.map(color => ({ ...color, active: appConfig.ui.primary === color.label })))
 </script>
@@ -106,8 +89,6 @@ const _colors = computed(() => defaultColors.value.map(color => ({ ...color, act
         <UDivider />
 
         <div class="flex-1" />
-
-        <UDashboardSidebarLinks :links="footerLinks" />
 
         <UDivider class="sticky bottom-0" />
 

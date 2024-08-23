@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { FormError } from '#ui/types'
-import { _postUserLogin } from '~/services/authService'
+import { _postUserRegister } from '~/services/authService'
 import { userStore } from '~/store/userStore'
+import { isUserLoggedIn } from '~/utils/member'
 
 definePageMeta({
   layout: 'withoutlayout'
@@ -9,11 +10,10 @@ definePageMeta({
 
 const usersStore = userStore()
 const route = useRouter()
-const isPageVisible = ref(false)
 const fields = [{
   name: 'name',
   type: 'text',
-  label: 'name',
+  label: 'Name',
   placeholder: 'Enter your name'
 }, {
   name: 'password',
@@ -30,40 +30,22 @@ const validate = (state: any) => {
 }
 
 async function onSubmit(data: any) {
-  await _postUserLogin(data.name, data.password)
-  if (import.meta.client) {
-    const token = window.localStorage.getItem('token')
-    if (token) {
-      // const userName = localStorage.getItem('username')
-      usersStore.userName = data.name
-      // route.push('/' + userName)
-      route.push('/')
-    }
-  }
+  await _postUserRegister(data.name, data.password, 'user')
 }
 
-onMounted(() => {
-  if (import.meta.client) {
-    const token = window.localStorage.getItem('token')
-    if (token) {
-      // const userName = localStorage.getItem('username')
-      // route.push('/' + userName)
-      route.push('/')
-      isPageVisible.value = false
-    } else {
-      isPageVisible.value = true
-    }
+onBeforeMount(() => {
+  if (isUserLoggedIn()) {
+    route.push('/')
   }
 })
 </script>
 
 <template>
   <div
-    class="flex items-center justify-center"
-    style="height: 100vh"
+    class="flex items-center justify-center "
+    style="width: 100vw; height: 100vh;"
   >
     <UCard
-      v-if="isPageVisible === true"
       class="max-w-sm w-full"
     >
       <UAuthForm
@@ -76,18 +58,18 @@ onMounted(() => {
         @submit="onSubmit"
       >
         <template #description>
-          Don't have an account? <NuxtLink
-            to="/register"
+          Do you have an account? <NuxtLink
+            to="/login"
             class="text-primary font-medium"
-          >Sign up</NuxtLink>.
+          >Sign in</NuxtLink>.
         </template>
-
+        <!--
         <template #password-hint>
           <NuxtLink
             to="/"
             class="text-primary font-medium"
           >Forgot password?</NuxtLink>
-        </template>
+        </template> -->
         <template #validation>
         <!-- <UAlert
           color="red"
@@ -96,7 +78,7 @@ onMounted(() => {
         /> -->
         </template>
         <template #footer>
-          By signing in, you agree to our <NuxtLink
+          By signup in, you agree to our <NuxtLink
             to="/"
             class="text-primary font-medium"
           >Terms of Service</NuxtLink>.

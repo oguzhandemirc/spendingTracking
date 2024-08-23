@@ -1,27 +1,29 @@
-<script setup lang="ts">
+<script setup lang="js">
 import { getStocks } from '~/services/stockService'
+import { isUserLoggedIn, removeTimeInterval, stockTimeInterval } from '~/utils/member'
 
 const { isNotificationsSlideoverOpen } = useDashboard()
-// const token = localStorage.getItem('token')
-// onMounted(() => {
-//   if (!token) {
-//     router.push('/login')
-//   }
-// })
 const selected = ref([])
 const stock = ref([])
-onMounted(async () => {
+const router = useRouter()
+const fetchStocks = async () => {
   const stocks = await getStocks()
-  stock.value = stocks.map(item => ({
-    id: item[0],
-    company: item[1],
-    open: item[2],
-    close: item[3],
-    low: item[4],
-    change: item[5],
-    volume: item[6],
-    time: item[8]
-  }))
+  stock.value = stocks
+}
+
+onBeforeMount(() => {
+  if (!isUserLoggedIn()) {
+    router.push('/login')
+  }
+})
+
+onMounted(() => {
+  fetchStocks()
+  stockTimeInterval(60000, fetchStocks)
+})
+
+onUnmounted(() => {
+  removeTimeInterval()
 })
 </script>
 
@@ -53,6 +55,7 @@ onMounted(async () => {
           </UTooltip>
         </template>
       </UDashboardNavbar>
+      <!-- {{ intervalCounter }} -->
       <UDashboardSection
         class="px-4"
         :description=" selected.length + ' Stocks Selected ' "
