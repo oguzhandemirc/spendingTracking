@@ -44,3 +44,12 @@ export const userDetail = async (username: string) => {
     console.error(error)
   }
 }
+
+export const setUserBalance = async (username: string, amount: number) => {
+  try {
+    const response = await axiosInstance.post(`api/Admin/user-balance`, { username, amount })
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}

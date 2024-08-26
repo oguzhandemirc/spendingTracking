@@ -1,13 +1,12 @@
 <script setup lang="ts">
-// BU SAYFAYI TEST ETMEDIN ÇALIŞMIYOR
 import { onMounted, ref } from 'vue'
-import { deleteUser, getUsers, userDetail } from '~/services/adminService'
+import { deleteUser, getUsers, setUserBalance, userDetail } from '~/services/adminService'
 
 // modal1
 const open = ref(false)
 const loading = ref(false)
 const toast = useToast()
-
+const amount = ref(0)
 function onDelete(username) {
   loading.value = true
   fetchDelete(username)
@@ -41,11 +40,25 @@ function onFetchDetail(username) {
   })
 }
 
+function onSetBalance(username, amount) {
+  // loading2.value = true
+  setBalance(username, amount)
+  fetchDetail(username)
+  setTimeout(() => {
+    loading2.value = false
+    open2.value = false
+  }, 1000)
+  toast.add({
+    title: 'Balance Set',
+    description: 'User balance has been set successfully',
+    color: 'blue'
+  })
+}
+
 // Users and selection
 const people = ref<Array<{ name: string }>>([])
 const selected = ref<{ username: string }[]>([])
 const userDetails = ref<Record<string, any> | null>(null)
-
 const fetchUsers = async () => {
   const response = await getUsers()
   people.value = response.data
@@ -61,6 +74,11 @@ const fetchDelete = async (user: string) => {
   selected.value = []
 }
 
+const setBalance = async (user: string, amount: number) => {
+  const response = await setUserBalance(user, amount)
+  userDetails.value = response.data
+}
+
 const fetchDetail = async (user: string) => {
   const response = await userDetail(user)
   userDetails.value = response.data
@@ -71,7 +89,6 @@ const fetchDetail = async (user: string) => {
   <div class="flex justify-between">
     <p>{{ selected.length > 0 ? selected[0].username + ' selected': 'There is no selected member' }}</p>
     <div class="space-x-2 flex">
-      <AdminSetAmount />
       <UButton
         color="yellow"
         :disabled="selected.length === 0"
@@ -156,7 +173,22 @@ const fetchDetail = async (user: string) => {
           </template>
 
           <template v-else-if="key === 'balance'">
-            <strong>Balance:</strong> {{ value }}
+            <div class=" mb-2 mt-2">
+              <div class="flex space-x-2  items-center">
+                <strong>Balance:</strong> {{ value }}
+                <UInput v-model="amount" />
+                <UButton
+                  color="yellow"
+                  label="Set Balance"
+                  @click="onSetBalance(selected[0].username, amount)"
+                />
+              </div>
+              <div>
+                <p class=" font-thin text-sm">
+                  Use (-) operator for decrase
+                </p>
+              </div>
+            </div>
           </template>
 
           <template v-else>
